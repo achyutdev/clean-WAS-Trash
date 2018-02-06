@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.apache.tools.ant.DirectoryScanner;
+
+import main.java.constant.Constants;
+import main.java.constant.Directory;
+
 /**
  * 
  * @author achyutdev
@@ -44,6 +49,7 @@ public class CleanWASTrash {
 			try {
 				for (Directory directory : Directory.values()) {
 					status = deleteDirectory(ROOT_PATH + directory.path());
+					status = deleteMatchDirectory(ROOT_PATH + directory.path());
 				}
 				if (status) {
 					System.out.println(
@@ -58,6 +64,20 @@ public class CleanWASTrash {
 		}
 	}
 
+	private static boolean deleteMatchDirectory(String string) {
+		
+		return false;
+	}
+
+	private String[] findDirectory(){
+		DirectoryScanner scanner = new DirectoryScanner();
+		scanner.setIncludes(new String[]{"config/cells/NW*Node*Cell/applications/niinternet-*-ear*"});
+		scanner.setBasedir(ROOT_PATH);
+		scanner.setCaseSensitive(false);
+		scanner.scan();
+		String[] files = scanner.getIncludedFiles();
+		return files;
+	}
 	private static boolean isPathNew() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Do you want to use new profile? [Y/N] ");
